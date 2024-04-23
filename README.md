@@ -14,7 +14,7 @@ Create file .env and add your OpenAI API key to it.
 
 `streamlit run app.py`
 
-## Beispiel
+## Example
 
 ![alt text](img/image.png)
 
