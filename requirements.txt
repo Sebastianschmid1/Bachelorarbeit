@@ -1,0 +1,11 @@
+langchain
+openai
+python-dotenv
+streamlit
+plotly
+tiktoken
+matplotlib
+sentence-transformers
+jupiter
+pypdf
+PyPDF2
