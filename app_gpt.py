@@ -6,11 +6,10 @@ import streamlit as st
 import streamlit.components.v1 as components
 import os
 
-
-load_dotenv()
+load_dotenv(".env")
 response: str = ""
 chat = ChatOpenAI(
-    model="gpt-4-turbo",
+    model="gpt-3.5-turbo",
     temperature=0.6,
 )
 

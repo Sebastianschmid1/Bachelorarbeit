@@ -13,7 +13,8 @@ import os
 
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(".env")
+
 faiss_index: FAISS = None
 embeddings = OpenAIEmbeddings()
 response = ""
@@ -94,7 +95,7 @@ model_choice = st.selectbox("Choose a chat model:", models)
 chat.model_name = model_choice
 st.write(f"You selected: {chat.model_name}")
 
-input = st.text_input("Input: ", key="input")
+input = st.text_area("Geben Sie hier Ihren Text ein", height=200)
 submit = st.button("Ask the question")
 if submit:
     response = get_openai_response(input)
