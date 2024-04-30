@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -f ".env" ]; then
+if [ -f .env ]; then
     echo "The .env file does not exist. It is created..."
     read -p "Please enter your OPENAI_API_KEY: " OPENAI_API_KEY
     echo "You entered: $OPENAI_API_KEY"
