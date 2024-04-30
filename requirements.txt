@@ -6,6 +6,7 @@ plotly
 tiktoken
 matplotlib
 sentence-transformers
-jupiter
+notebook
 pypdf
 PyPDF2
+langchain_openai
