@@ -47,7 +47,10 @@ def get_openai_response(question: str, sytem_message: str) -> str:
         return "Bitte laden Sie zuerst eine Datei hoch"
 
 
-st.set_page_config(page_title="BA")
+st.set_page_config(
+    page_title="BA",
+    page_icon="👾",
+)
 st.header("Bachelorsarbeit Application")
 
 model_choice = st.selectbox("Choose a chat model:", models)

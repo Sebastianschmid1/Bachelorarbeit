@@ -30,9 +30,9 @@ echo 2. gbt 2
 set /p choice="Enter your choice: "
 if %choice%==1 (
     echo Starting embeddings app...
-    streamlit run app_doc.py
+    streamlit run apps\app_doc.py
 ) else (
     
     echo Starting gpt app...
-    streamlit run app_gpt.py
+    streamlit run apps\app_gpt.py
 )

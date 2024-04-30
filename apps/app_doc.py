@@ -57,7 +57,10 @@ def get_openai_response(question: str) -> str:
         return "Bitte laden Sie zuerst eine Datei hoch"
 
 
-st.set_page_config(page_title="BA")
+st.set_page_config(
+    page_title="BA",
+    page_icon="👾",
+)
 st.header("Bachelorsarbeit Application")
 
 st.sidebar.title("Upload-Button Beispiel")
