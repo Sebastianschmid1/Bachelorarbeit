@@ -1,13 +1,13 @@
 #!/bin/bash
 
-if [ -f .env ]; then
+if [ -f ".env" ]; then
+    echo "The .env file already exists."
+else
     echo "The .env file does not exist. It is created..."
     read -p "Please enter your OPENAI_API_KEY: " OPENAI_API_KEY
     echo "You entered: $OPENAI_API_KEY"
     echo "OPENAI_API_KEY='$OPENAI_API_KEY'" > .env
     echo ".env file was created successfully!"
-else
-    echo "The .env file already exists."
 fi
 
 if [ ! -d "venv" ]; then
