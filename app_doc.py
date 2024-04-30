@@ -1,5 +1,4 @@
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 import streamlit as st
 
@@ -17,6 +16,15 @@ from dotenv import load_dotenv
 load_dotenv()
 faiss_index: FAISS = None
 embeddings = OpenAIEmbeddings()
+response = ""
+models = [
+    "gpt-3.5-turbo",
+    "gpt-4",
+    "gpt-4-turbo",
+    "gpt-4-vision-preview",
+    "davinci-002",
+    "babbage-002",
+]
 chat = ChatOpenAI(
     model="gpt-4-turbo",
     temperature=0.6,
@@ -43,21 +51,16 @@ def get_openai_response(question: str) -> str:
             SystemMessage(content="You are a helpful assistant in German"),
             HumanMessage(content=doc[0].page_content),
         ]
-
-        print(type(doc[0].page_content))
         return chat(messages).content
     else:
         return "Bitte laden Sie zuerst eine Datei hoch"
 
 
 st.set_page_config(page_title="BA")
-
+st.header("Bachelorsarbeit Application")
 
 st.sidebar.title("Upload-Button Beispiel")
 uploaded_file = st.sidebar.file_uploader("Datei hier hochladen:", type=["pdf", "csv"])
-
-st.header("Bachelorsarbeit Application")
-
 
 if uploaded_file is not None:
 
@@ -87,9 +90,14 @@ if uploaded_file is not None:
 else:
     st.warning("Bitte eine Datei hochladen.")
 
+model_choice = st.selectbox("Choose a chat model:", models)
+chat.model_name = model_choice
+st.write(f"You selected: {chat.model_name}")
+
 input = st.text_input("Input: ", key="input")
-response = get_openai_response(input)
 submit = st.button("Ask the question")
 if submit:
+    response = get_openai_response(input)
+if submit and (response != ""):
     st.subheader("The Response is")
     st.write(response)

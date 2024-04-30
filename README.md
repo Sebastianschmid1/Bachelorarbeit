@@ -12,7 +12,8 @@ Create file .env and add your OpenAI API key to it.
 
 ## Start Application
 
-`streamlit run app.py`
+`streamlit run app_doc.py` -> to check documents
+`streamlit run app_gbt.py` -> to get regular gpt response
 
 ## Example
 
