@@ -32,8 +32,8 @@ read -p "Gib deine Wahl ein: " choice
 if [ $choice = 1 ]
 then
     echo "Starte embeddings app..."
-    streamlit run apps/app_doc.py
+    streamlit run apps/app_doc.py --server.port 8500
 else
     echo "Starte gpt app..."
-    streamlit run apps/app_gpt.py
+    streamlit run apps/app_gpt.py --server.port 8501
 fi

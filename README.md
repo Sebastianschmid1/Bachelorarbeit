@@ -9,16 +9,28 @@ To start the setup process, follow the instructions below based on your operatin
 `setup.bat`
 3. Enter Your Api-Key
 4. Select app to run
-5. Open in your browser `http://localhost:8501/`
+5. Open in your browser `http://localhost:8501/` for gpt or `http://localhost:8500/` for embeddings
 
 ## Unix/Linux/Mac
 
 1. Open a terminal in the project directory.
-2. Run the following command to make the shell script executable:
+2. Run the following command to execute the shell script:
 `source setup.sh`
 3. Enter Your Api-Key
 4. Select app to run
-5. Open in your browser `http://localhost:8501/`
+5. Open in your browser `http://localhost:8501/` for gpt or `http://localhost:8500/` for embeddings
+
+## Unix/Linux/Mac with SSH if you want to run it permanent
+
+1. Open a terminal in the project directory.
+2. Run the following command to give permission to run nohup:
+`chmod +x setup.sh`
+4. Run the following command to execute the shell script:
+`nohup ./setup.sh`
+5. Enter Your Api-Key
+6. Select app to run
+5. Open in your browser `http://HOSTENAME:8501/` for gpt or `http://HOSTENAME:8500/` for embeddings
+
 
 ### How to install manually
 

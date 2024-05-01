@@ -30,9 +30,9 @@ echo 2. gbt 2
 set /p choice="Enter your choice: "
 if %choice%==1 (
     echo Starting embeddings app...
-    streamlit run apps\app_doc.py
+    streamlit run apps\app_doc.py --server.port 8500
 ) else (
     
     echo Starting gpt app...
-    streamlit run apps\app_gpt.py
+    streamlit run apps\app_gpt.py --server.port 8501
 )
