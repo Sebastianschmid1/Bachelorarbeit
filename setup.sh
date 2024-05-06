@@ -26,14 +26,21 @@ fi
 
 echo "Wähle ein Script zum Ausführen:"
 echo "1. embeddings"
-echo "2. gbt"
+echo "2. gpt"
 read -p "Gib deine Wahl ein: " choice
 
 if [ $choice = 1 ]
 then
     echo "Starte embeddings app..."
     streamlit run apps/app_doc.py --server.port 8500
-else
+elif [ $choice = 2 ]
+then
     echo "Starte gpt app..."
     streamlit run apps/app_gpt.py --server.port 8501
+elif [ $choice = 3 ]
+then
+    echo "Starte PDF summery app..."
+    streamlit run apps/app_doc_summery.py --server.port 8500
+else
+    echo "wrong input"
 fi

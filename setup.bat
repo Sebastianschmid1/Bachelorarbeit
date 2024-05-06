@@ -26,13 +26,22 @@ IF  EXIST venv (
 
 echo Choose a script to run:
 echo 1. embeddings 1
-echo 2. gbt 2
+echo 2. gpt 2
+echo 3. PDF Summery 3
+
 set /p choice="Enter your choice: "
 if %choice%==1 (
     echo Starting embeddings app...
-    streamlit run apps\app_doc.py --server.port 8500
-) else (
+    streamlit run apps\app_doc.py --server.port 8501
+) else if %choice%==2 (
     
     echo Starting gpt app...
     streamlit run apps\app_gpt.py --server.port 8501
+)
+else if %choice%==3 (
+    
+    echo Starting doc summery app...
+    streamlit run apps\app_doc_summery.py --server.port 8501
+) else (
+    echo wrong input
 )
