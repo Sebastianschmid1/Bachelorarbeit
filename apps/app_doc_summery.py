@@ -1,3 +1,4 @@
+import time
 import streamlit as st
 import streamlit.components.v1 as components
 
@@ -20,7 +21,7 @@ from dotenv import load_dotenv
 
 
 load_dotenv(".env")
-docs = None
+docs = []
 response = ""
 models = [
     "gpt-3.5-turbo",
@@ -35,6 +36,7 @@ chat = ChatOpenAI(
     temperature=0,
 )
 user_input = "Write a concise summary of the following:"
+pdf_dict_path = "pdfs"
 
 
 def prompt_costume_template(user_input: str) -> PromptTemplate:
@@ -57,14 +59,28 @@ def alert(message: str) -> None:
     )
 
 
+def load_pdf_files(folder_path):
+    """Lade alle PDF-Dateinamen in einem Ordner."""
+    for file_name in os.listdir(folder_path):
+        if file_name.lower().endswith(".pdf"):
+            st.sidebar.write(file_name)
+            (
+                docs
+                + PyPDFLoader(f"{folder_path}/{file_name}", extract_images=False).load()
+            )
+            print(type(docs))
+
+
 def get_openai_response(question: str) -> str:
     if docs is not None:
+        t1 = time.time()
+        print("starting")
         prompt = prompt_costume_template(question)
         reduce_chain = LLMChain(llm=chat, prompt=prompt)
         combine_documents_chain = StuffDocumentsChain(
             llm_chain=reduce_chain, document_variable_name="text"
         )
-
+        print("progress:  combine_documents_chain" + str(time.time() - t1))
         # Combines and iteratively reduces the mapped documents
         reduce_documents_chain = ReduceDocumentsChain(
             # This is final chain that is called.
@@ -72,12 +88,15 @@ def get_openai_response(question: str) -> str:
             # If documents exceed context for `StuffDocumentsChain`
             collapse_documents_chain=combine_documents_chain,
             # The maximum number of tokens to group documents into.
-            token_max=4000,
+            token_max=8000,
         )
+        print("progress:  reduce_documents_chain" + str(time.time() - t1))
         text_splitter = CharacterTextSplitter.from_tiktoken_encoder(
-            chunk_size=1000, chunk_overlap=0
+            chunk_size=4000, chunk_overlap=3
         )
+        print("progress:  CharacterTextSplitter" + str(time.time() - t1))
         split_docs = text_splitter.split_documents(docs)
+        print("progress:  split_docs" + str(time.time() - t1))
         return reduce_documents_chain.run(split_docs)
     else:
         return "Bitte laden Sie zuerst eine Datei hoch"
@@ -88,10 +107,10 @@ st.set_page_config(
     page_icon="👾",
 )
 st.header("Bachelorsarbeit Application")
-
 st.sidebar.title("Upload-Button Beispiel")
+load_pdf_files(pdf_dict_path)
 uploaded_file = st.sidebar.file_uploader("Datei hier hochladen:", type=["pdf", "csv"])
-
+k = 0
 if uploaded_file is not None:
 
     if uploaded_file.type == "text/csv":
@@ -108,11 +127,6 @@ if uploaded_file is not None:
         with open(f"pdfs/{uploaded_file.name}", "wb") as output_pdf_file:
             pdf_writer.write(output_pdf_file)
 
-        docs = PyPDFLoader(f"pdfs/{uploaded_file.name}", extract_images=False).load()
-
-        st.write("PDF-Datei wurde hochgeladen.")
-
-        alert("Datei erfolgreich hochgeladen!")
 
 else:
     st.warning("Bitte eine Datei hochladen.")

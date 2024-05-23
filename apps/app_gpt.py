@@ -59,7 +59,9 @@ st.write(f"You selected: {chat.model_name}")
 
 
 sytem_message = st.text_input(
-    "InputSystem: ", key="inputSystem", value="You are a helpful assistant in German"
+    "InputSystem: ",
+    key="inputSystem",
+    value="Du bist ein Hilfreicher assistent für eine Wissenschaftlichearbeit in Deutsch",
 )
 input_user = st.text_area("InputUser: ", key="input", height=150)
 submit = st.button("Ask the question")
