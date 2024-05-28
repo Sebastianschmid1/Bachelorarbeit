@@ -47,11 +47,10 @@ def alert(message: str) -> None:
 def get_openai_response(question: str) -> str:
     if faiss_index is not None:
 
-        doc = faiss_index.similarity_search(question, k=1)
-        for i in doc:
-            print(i.page_content)
+        doc = faiss_index.similarity_search(question, k=2)
+        print(doc[0].page_content)
         messages = [
-            SystemMessage(content="You are a helpful assistant in German"),
+            SystemMessage(content=question +" mit Folgenden Kontext:"),
             HumanMessage(content=doc[0].page_content),
         ]
         return chat(messages).content
