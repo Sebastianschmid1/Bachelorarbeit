@@ -84,7 +84,6 @@ if uploaded_file is not None:
             pdf_writer.write(output_pdf_file)
 
         loader = PyPDFLoader(f"pdfs/{uploaded_file.name}", extract_images=False)
-
         pages = loader.load_and_split()
         faiss_index = FAISS.from_documents(pages, embeddings)
 
