@@ -49,8 +49,11 @@ def get_openai_response(question: str) -> str:
 
         doc = faiss_index.similarity_search(question, k=1)
         messages = [
-            SystemMessage(content=question + " mit Folgenden Kontext:"),
-            HumanMessage(content=doc[0].page_content),
+            SystemMessage(
+                content="Sei ein hilfreicher VDA 4938 Assistent mit folgendem Kontext:"
+                + doc[0].page_content
+            ),
+            HumanMessage(content=question),
         ]
         return chat(messages).content
     else:
