@@ -14,7 +14,7 @@ def get_embedding(
     )
 
 
-def plot_results(results, line_names, ylim=(1, 1.7)):
+def plot_results(results, line_names, xlim=(0, 10), ylim=(1, 1.7)):
     colors = plt.cm.viridis(np.linspace(0, 1, 10))
     line_styles = ["-", "--", "-.", ":", "-", "--", "-.", ":", "-", "--"]
 
@@ -28,7 +28,7 @@ def plot_results(results, line_names, ylim=(1, 1.7)):
             linestyle=line_styles[i],
             linewidth=2,
         )
-    plt.xlim((0, 10))
+    plt.xlim(xlim)
     plt.ylim(ylim)
     plt.legend(loc="upper left", bbox_to_anchor=(1, 1))
     plt.xlabel("X-Achse", fontsize=12)

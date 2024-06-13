@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 load_dotenv(".env")
 
 faiss_index: FAISS = None
-embeddings = OpenAIEmbeddings()
+embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 response = ""
 models = [
     "gpt-3.5-turbo",
@@ -27,7 +27,7 @@ models = [
     "babbage-002",
 ]
 chat = ChatOpenAI(
-    model="gpt-3.5-turbo",
+    model="gpt-4-turbo",
     temperature=0.6,
 )
 
@@ -47,10 +47,9 @@ def alert(message: str) -> None:
 def get_openai_response(question: str) -> str:
     if faiss_index is not None:
 
-        doc = faiss_index.similarity_search(question, k=2)
-        print(doc[0].page_content)
+        doc = faiss_index.similarity_search(question, k=1)
         messages = [
-            SystemMessage(content=question +" mit Folgenden Kontext:"),
+            SystemMessage(content=question + " mit Folgenden Kontext:"),
             HumanMessage(content=doc[0].page_content),
         ]
         return chat(messages).content
