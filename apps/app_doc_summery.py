@@ -81,13 +81,9 @@ def get_openai_response(question: str) -> str:
             llm_chain=reduce_chain, document_variable_name="text"
         )
         print("progress:  combine_documents_chain" + str(time.time() - t1))
-        # Combines and iteratively reduces the mapped documents
         reduce_documents_chain = ReduceDocumentsChain(
-            # This is final chain that is called.
             combine_documents_chain=combine_documents_chain,
-            # If documents exceed context for `StuffDocumentsChain`
             collapse_documents_chain=combine_documents_chain,
-            # The maximum number of tokens to group documents into.
             token_max=8000,
         )
         print("progress:  reduce_documents_chain" + str(time.time() - t1))
