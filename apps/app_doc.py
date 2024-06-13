@@ -1,7 +1,7 @@
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 from langchain.cache import InMemoryCache
-from langchain.globals import set_llm_cache
+
 
 import streamlit as st
 
@@ -27,7 +27,6 @@ models = [
     "babbage-002",
 ]
 
-set_llm_cache(InMemoryCache())
 chat = ChatOpenAI(model="gpt-4-turbo", temperature=0.6, cache=InMemoryCache())
 
 
@@ -65,7 +64,7 @@ def get_openai_response(question: str) -> str:
         return "Bitte laden Sie zuerst eine Datei hoch"
 
 
-def laod_pdf():
+def laod_pdf() -> FAISS:
     temp_file = "./temp.pdf"
 
     with open(temp_file, "wb") as file:
