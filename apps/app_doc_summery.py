@@ -24,8 +24,8 @@ load_dotenv(".env")
 docs = []
 response = ""
 models = [
-    "gpt-3.5-turbo",
     "gpt-4",
+    "gpt-3.5-turbo",
     "gpt-4-turbo",
     "gpt-4-vision-preview",
     "davinci-002",
@@ -59,22 +59,19 @@ def alert(message: str) -> None:
     )
 
 
-def load_pdf_files(folder_path):
+def load_pdf_files(folder_path, doc):
     """Lade alle PDF-Dateinamen in einem Ordner."""
+
     for file_name in os.listdir(folder_path):
+        print(file_name.lower())
         if file_name.lower().endswith(".pdf"):
             st.sidebar.write(file_name)
-            (
-                docs
-                + PyPDFLoader(f"{folder_path}/{file_name}", extract_images=False).load()
-            )
-            print(type(docs))
+            PyPDFLoader(f"{folder_path}\{file_name}", extract_images=False).load()
 
 
 def get_openai_response(question: str) -> str:
     if docs is not None:
         t1 = time.time()
-        print("starting")
         prompt = prompt_costume_template(question)
         reduce_chain = LLMChain(llm=chat, prompt=prompt)
         combine_documents_chain = StuffDocumentsChain(
@@ -91,7 +88,12 @@ def get_openai_response(question: str) -> str:
             chunk_size=4000, chunk_overlap=3
         )
         print("progress:  CharacterTextSplitter" + str(time.time() - t1))
-        split_docs = text_splitter.split_documents(docs)
+        split_docs = text_splitter.split_documents(
+            PyPDFLoader(
+                f"pdfs/Retrieval_Augmented_Generation_Approach.pdf",
+                extract_images=False,
+            ).load()
+        )
         print("progress:  split_docs" + str(time.time() - t1))
         return reduce_documents_chain.run(split_docs)
     else:
@@ -104,7 +106,7 @@ st.set_page_config(
 )
 st.header("Bachelorsarbeit Application")
 st.sidebar.title("Upload-Button Beispiel")
-load_pdf_files(pdf_dict_path)
+load_pdf_files(pdf_dict_path, docs)
 uploaded_file = st.sidebar.file_uploader("Datei hier hochladen:", type=["pdf", "csv"])
 k = 0
 if uploaded_file is not None:

@@ -1,0 +1,389 @@
+-----------------------------------------
+0.Für was steht UNA?
+-----------------------------------------
+Nachrichtenstruktur ............................... ................................................... ................................................... ............4 
+Branchingdiagramm ................................. ................................................... ................................................... ..........8 
+Segmentbeschreibung ............................... ................................................... ................................................... ...... 12
+-----------------------------------------
+1.Für was steht UNH?
+-----------------------------------------
+Bez = Objekt-Bezeichner, Nr = Laufende Segmentnumme r im Guide, MaxWdh = Maximale Wiederholung der Segm ente/Gruppen  
+St = Status, M=Muss, C=Kann, R=Gefordert, O=Optiona l, D=Abhängig  von , A=Empfohlen, N=Nicht benutzt  
+ Seite:14 /96  
+ 
+ Zähler     Nr  Bez   St  MaxWdh  Ebene  Name  
+  
+ 0010 3   UNH   M 1 0  Nachrichten-Kopfsegment  
+  
+ Standard  Implementierung  
+Bez  Name  St  Format   St  Format  Beispiel  Anwendung / Bemerkung  
+UNH       UNH   
+0062  Nachrichten-Referenznummer  M an..14   M an..14 +1  Nachrichten-Referenznummer - eindeutige 
+Nummer zur Identifikation der Nachricht im 
+Datenaustausch, üblicherweise eine fortlaufend 
+aufsteigende Nummer beginnend mit 1.  
+S009  Nachrichten -Kennung  M   M    
+0065  Nachrichtentyp -Kennung  M an..6   M an..6  +INVOIC   INVOIC  Rechnung  
+0052  Versionsnummer des  
+Nachrichtentyps  M an..3   M an..3 :D   D Entwurfs-Version  
+0054  Freigabenummer des  
+Nachrichtentyps  M an..3   M an..3 :07A   07A  Ausgabe 2007 - A  
+0051  Verwaltende Organisation  M an..2   M an..2  :UN   UN  UN/CEFACT  
+0057  Anwendungscode der  
+zuständigen Organisation  C an..6   R an6 :GAVA23'  Kennzeichnung des verwendeten Subsets, 
+zugewiesen von  der verantwortlichen Organisation 
+(Odette bzw. Joint  Automotive Initiative Forum).  
+Der vom VDA zugewiesenen Code sollte 
+verwendet werden,  um das verwendete Subset 
+genauer zu spezifizieren.  
+ GAVA2 3 VDA INVOIC Version 2. 4 
+0068  Allgemeine Zuordnungs-  
+Referenz  C an..35   N   Nicht benutzt  
+S010  Status der Übermittlung  C   N    
+0070  Übermittlungsfolgenummer  M n..2   N   Nicht benutzt  
+0073  Erste und letzte Übermittlung  C a1   N   Nicht benutzt  
+ Beispiel  UNH+1+INVOIC:D:07A:UN:GAVA23'
+-----------------------------------------
+2.Für was steht DTM?
+-----------------------------------------
+Bez = Objekt-Bezeichner, Nr = Laufende Segmentnumme r im Guide, MaxWdh = Maximale Wiederholung der Segm ente/Gruppen  
+St = Status, M=Muss, C=Kann, R=Gefordert, O=Optiona l, D=Abhängig  von , A=Empfohlen, N=Nicht benutzt  
+ Seite:19 /96  
+ 
+ Zähler     Nr  Bez   St  MaxWdh  Ebene  Name  
+  
+ 0030 8   DTM   D 1 1  Enddatum Liefer- / Leistungshorizont  
+  
+ Standard  Implementierung  
+Bez  Name  St  Format   St  Format  Beispiel  Anwendung / Bemerkung  
+DTM       DTM   
+C507  Datum/Uhrzeit/Zeitspanne  M   M    
+2005  Datums- oder Uhrzeits- oder  
+Zeitspannen -Funktion, Qualifier  M an..3   M an..3 +159   159  Planungshorizont, Endedatum  
+2380  Datum oder Uhrzeit oder  
+Zeitspanne, Wert  C an..35   R n..8 :20160420  Enddatum einer bestimmten Abrechnungsperiode  
+2379  Datums- oder Uhrzeit- oder  
+Zeitspannen -Format, Code  C an..3   R an..3 :102'   102  CCYYMMDD  
+ Anmerkungen  Das Enddatum Liefer- / Leistungshorizont ist das l etzte Datum der Rechnungsperiode, die den Horizont 
+                 bildet. Wenn das Liefer/Leistungsd atum DTM+1 nicht verfügbar ist, da sich die Rechnun g auf einen    
+                 Zeitraum bezieht, muss das Datum des Leistungshoriz onts gesendet werden.  
+  
+ Beispiel  DTM+159:20160420:102'
+-----------------------------------------
+3.Für was steht RFF?
+-----------------------------------------
+Bez = Objekt-Bezeichner, Nr = Laufende Segmentnumme r im Guide, MaxWdh = Maximale Wiederholung der Segm ente/Gruppen  
+St = Status, M=Muss, C=Kann, R=Gefordert, O=Optiona l, D=Abhängig  von , A=Empfohlen, N=Nicht benutzt  
+ Seite:44 /96  
+ 
+ Zähler     Nr  Bez   St  MaxWdh  Ebene  Name  
+  
+ 0270   SG3   D 1 2  Umsatzsteuernummer des Verkäufers  
+  
+ 0280 27   RFF   M 1 2  Umsatzsteuernummer des Verkäufers  
+  
+ Standard  Implementierung  
+Bez  Name  St  Format   St  Format Beispiel  Anwendung / Bemerkung  
+RFF       RFF   
+C506  Referenz  M   M    
+1153  Referenz, Qualifier  M an..3   M an..3  +VA   VA  Umsatzsteuernummer  
+1154  Referenz, Identifikation  C an..70   R an..35 :DE12927 
+4000‘  Eindeutiger Identifier, der einem Geschäftspartner 
+zum  Zwecke der umsatzsteuerlichen Behandlung 
+von der  Steuerbehörde zugewiesen wurde.  
+Umsatzsteuernummer des Verkäufers  
+1156  Zeilennummer  C an..6   N   Nicht benutzt  
+1056  Versionsnummer  C an..9   N   Nicht benutzt  
+1060  Revisionsnummer  C an..6   N   Nicht benutzt  
+ Anmerkungen  Im Falle, dass der Ländercode des Verkäufers DE is t, ist die Umsatzsteuer Identifikationsnummer vom 
+ Verkäufer (RFF+VA) oder die Steuernummer des Verkä ufers (RFF+FC) zwingend anzugeben. 
+ Im Falle, das s der Ländercode des Verkäufers zur EU gehört , ist  die Umsatzsteuer Identifikationsnummer 
+ vom Verkäufer (RFF+VA) zwingend anzugeben und die Steuernummer des Verkäuf ers (RFF+FC) ist 
+ optional. 
+ Im Falle, das s der Ländercode des Verkäufers nicht zur EU gehört  sind beide, die Umsatzsteuer 
+ Identifikationsnummer vom Verkäufer (RFF+VA) und di e Steuernummer des Verkäufers  (RFF+FC)  optional. 
+ Beispiel  RFF+VA:DE129274000'
+-----------------------------------------
+4.Für was steht NAD?
+-----------------------------------------
+Nachrichtenaufbaudiagramm benutzter Segmente/Gruppe n  
+  
+ 
+  Bez  Bez = Segment -/Gruppen -Bezeichner  
+  St  MaxWdh  St = Status (M=Muss/Mandatory, C=Conditional, R=Erf orderlich/Required, O=Optional, D=Abhängig von  / Dependent, A=Empfohlen  / Advised)  
+  Nr  MaxWdh = Maximale Wiederholung der Segmente/Gruppen  
+  Nr = Laufende Segmentnummer im Guide  
+   Seite:8 /96  
+ 
+  
+SG2  
+R 1 
+ 
+NAD  
+M 1 
+13 
+ SG2 
+D 1 
+ 
+NAD  
+M 1 
+18 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+  
+ 
+UNA 
+O 1 
+1 
+ 
+UNB 
+M 1 
+2 
+ 
+UNH 
+M 1 
+3 
+ 
+BGM 
+M 1 
+4 
+ 
+DTM  
+R 1 
+5 
+ 
+DTM  
+R 1 
+6 
+ 
+DTM  
+O 1 
+7 
+ 
+DTM  
+O 1 
+8 
+ 
+FTX  
+O 99 
+9 
+ 
+FTX  
+O 99 
+10 
+ 
+SG1  
+D 1 
+ 
+RFF  
+M 1 
+11 
+ 
+SG1  
+O 1 
+ 
+RFF  
+M 1 
+12 
+ 
+SG3  
+D 1 
+ 
+RFF 
+M 1 
+14  
+ 
+SG3  
+D 1 
+ 
+RFF  
+M 1 
+15  
+ 
+SG5  
+O 1 
+ 
+CTA 
+M 1 
+16  
+ 
+COM  
+O 4 
+17 
+ 
+SG2  
+D 1 
+ 
+NAD  
+M 1 
+19 
+ 
+SG2  
+O 1 
+ 
+NAD  
+M 1 
+20 
+ 
+ 
+SG2  
+R 1 
+ 
+NAD  
+M 1 
+21 
+ 
+SG3  
+D 1 
+ 
+RFF  
+M 1 
+22 
+ 
+SG3  
+D 1 
+ 
+RFF  
+M 1 
+23 
+ 
+SG5  
+O 1 
+ 
+CTA  
+M 1 
+24 
+ 
+COM  
+O 5 
+25 
+  
+SG2 
+O 1 
+ 
+NAD  
+M 1 
+26 
+ 
+SG3  
+O 2 
+ 
+RFF  
+M 1 
+27 
+ 1
+-----------------------------------------
+5.Für was steht LIN?
+-----------------------------------------
+Bez = Objekt-Bezeichner, Nr = Laufende Segmentnumme r im Guide, MaxWdh = Maximale Wiederholung der Segm ente/Gruppen  
+St = Status, M=Muss, C=Kann, R=Gefordert, O=Optiona l, D=Abhängig  von , A=Empfohlen, N=Nicht benutzt  
+ Seite:58 /96  
+ 
+ Zähler     Nr  Bez   St  MaxWdh  Ebene  Name  
+  
+ 1090   SG26   R 900 1  Positionsebene  
+  
+ 1100 40   LIN   M 1 1  Position und Artikelnummer  
+  
+ Standard  Implementierung  
+Bez  Name  St  Format   St  Format Beispiel  Anwendung / Bemerkung  
+LIN       LIN   
+1082  Positionsnummer  C an..6   R n..6 +1  Vom Nachrichtensender generierte aufsteigende  
+Positionsnummer, die eine Position innerhalb der 
+Nachricht  identifiziert.  
+Es wird empfohlen, mit 1 zu beginnen und 
+fortlaufend für jede neue Position um 1 zu  
+erhöhen.  
+1229  Handlung, Code  C an..3   N  + Nicht benutzt  
+C212  Waren-/Leistungsnummer,  
+Identifikation  C   O    
+7140  Produkt-/Leistungsnummer  C an..35   R an..35 +6081271  ID des Artikels (Sachnummer), zugewiesen vom 
+Käufer  
+Anmerkung: der Begriff Artikel ist ein Synonym für 
+Teil oder Erzeugnis. In globalen Projekten der 
+Automobilindustrie der Begriff Artikel eingeführt i st.  
+BMW-Sachnummer 9-stellig  
+(Muster: XXXXXXX -XX)  
+7143  Art der Produkt-/  
+Leistungsnummer, Code  C an..3   R an..3 :IN'   IN  Artikelnummer des Käufers  
+1131  Codeliste, Code  C an..17   N   Nicht benutzt  
+3055  Verantwortliche Stelle für die  
+Codepflege, Code  C an..3   N   Nicht benutzt  
+C829  Unterpositions -Informationen  C   N    
+5495  Anzeige für Unterposition,  
+Code  C an..3   N   Nicht benutzt  
+1082  Positionsnummer  C an..6   N   Nicht benutzt  
+1222  Ebene, Nummer  C n..2   N   Nicht benutzt  
+7083  Unterpositions-Zuordnung,  
+Code  C an..3   N   Nicht benutzt  
+ Beispiel  LIN+1++6081271:IN'
+-----------------------------------------
+6.Für was steht BGM?
+-----------------------------------------
+Informationen zum Dokument  
+Geändert für 
+die Freigabe Go-Live-Datum  Version  Segmente Änderungen Autoren 
+WP1 Go Live 09.01.2019 V2.6 N/A MIG created / GoLive BMW / OT
+-----------------------------------------
+7.Was ist Bezeichnung für Trennzeichen?
+-----------------------------------------
+Bez = Objekt-Bezeichner, Nr = Laufende Segmentnumme r im Guide, MaxWdh = Maximale Wiederholung der Segm ente/Gruppen  
+St = Status, M=Muss, C=Kann, R=Gefordert, O=Optiona l, D=Abhängig  von , A=Empfohlen, N=Nicht benutzt  
+ Seite:30 /96  
+ 
+ Zähler     Nr  Bez   St  MaxWdh  Ebene  Name  
+  
+ 0330   SG5   O 1 2  Informationskontakt  
+  
+ 0340 17   CTA   M 1 2  Ansprechpartner  
+  
+ Standard  Implementierung  
+Bez  Name  St  Format   St  Format Beispiel  Anwendung / Bemerkung  
+CTA       CTA   
+3139  Funktion des  
+Ansprechpartners, Code  C an..3   R an..3 +IC   IC  Informationskontakt  
+C056  Kontaktangaben  C   O    
+3413  Kontakt, Nummer  C an..17   O an..17 +Accounti 
+ng   Abteilungs- oder Personal ID für Kontakte  
+3412  Kontakt  C an..256   O an..35 :Karin 
+Karin'  Name der Kontaktperson oder Abteilung  
+ Beispiel  CTA+IC+Accounting:Karin Karin'
+-----------------------------------------
+8.Was ist Bezeichnung für Gesetzlich vorgeschriebener Text?
+-----------------------------------------
+Nachrichtenstruktur ............................... ................................................... ................................................... ............4 
+Branchingdiagramm ................................. ................................................... ................................................... ..........8 
+Segmentbeschreibung ............................... ................................................... ................................................... ...... 12
+-----------------------------------------
+9.Was ist Bezeichnung für Nachrichtendatum?
+-----------------------------------------
+Bez = Objekt-Bezeichner, Nr = Laufende Segmentnumme r im Guide, MaxWdh = Maximale Wiederholung der Segm ente/Gruppen  
+St = Status, M=Muss, C=Kann, R=Gefordert, O=Optiona l, D=Abhängig  von , A=Empfohlen, N=Nicht benutzt  
+ Seite:16 /96  
+ 
+ Zähler     Nr  Bez   St  MaxWdh  Ebene  Name  
+  
+ 0030 5   DTM   R 1 1  Nachrichtendatum  
+  
+ Standard  Implementierung  
+Bez  Name  St  Format   St  Format  Beispiel  Anwendung / Bemerkung  
+DTM       DTM   
+C507  Datum/Uhrzeit/Zeitspanne  M   M    
+2005  Datums- oder Uhrzeits- oder  
+Zeitspannen-Funktion, Qualifier  M an..3   M an..3 +137  Das Nachrichtendatum ist als Synonym zum  
+ Rechnungsdatum anzusehen. 
+     137 Dokumenten-/Nachrichtendatum/ 
+          - zeit  
+2380  Datum oder Uhrzeit oder  
+Zeitspanne, Wert  C an..35   R n..8 :20160420  Belegdatum  
+2379  Datums- oder Uhrzeit- oder  
+Zeitspannen -Format, Code  C an..3   R an..3 :102'   102  CCYYMMDD  
+ Beispiel  DTM+137:20160420:102'

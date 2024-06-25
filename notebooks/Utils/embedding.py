@@ -14,12 +14,12 @@ def get_embedding(
     )
 
 
-def plot_results(results, line_names, xlim=(0, 10), ylim=(1, 1.7)):
+def plot_results(results, line_names, xlim=(0, 10), ylim=(1, 1.7), titel=""):
     colors = plt.cm.viridis(np.linspace(0, 1, 10))
     line_styles = ["-", "--", "-.", ":", "-", "--", "-.", ":", "-", "--"]
 
     # Plotten der Daten
-    plt.figure(figsize=(12, 8))
+    plt.figure(figsize=(12, 8), dpi=150)
     for i in range(results.shape[0]):
         plt.plot(
             results[i],
@@ -30,10 +30,13 @@ def plot_results(results, line_names, xlim=(0, 10), ylim=(1, 1.7)):
         )
     plt.xlim(xlim)
     plt.ylim(ylim)
-    plt.legend(loc="upper left", bbox_to_anchor=(1, 1))
-    plt.xlabel("X-Achse", fontsize=12)
-    plt.ylabel("Y-Achse", fontsize=12)
-    plt.title("Plot von 10 verschiedenen Linien mit Namen", fontsize=14)
+    plt.legend(loc="upper right")
+    plt.xlabel("k", fontsize=12)
+    plt.ylabel("Score", fontsize=12)
+    plt.title(
+        titel,
+        fontsize=14,
+    )
     plt.grid(True, linestyle="--", alpha=0.7)
     plt.tight_layout(rect=[0, 0, 0.85, 1])
     plt.show()
