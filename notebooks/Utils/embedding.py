@@ -14,8 +14,8 @@ def get_embedding(
     )
 
 
-def plot_results(results, line_names, xlim=(0, 10), ylim=(1, 1.7), titel=""):
-    colors = plt.cm.viridis(np.linspace(0, 1, 10))
+def plot_results(results, line_names, xlim=(0, 20), ylim=(1, 1.7), titel=""):
+    colors = plt.cm.viridis(np.linspace(0, 1, 20))
     line_styles = ["-", "--", "-.", ":", "-", "--", "-.", ":", "-", "--"]
 
     # Plotten der Daten
@@ -28,9 +28,16 @@ def plot_results(results, line_names, xlim=(0, 10), ylim=(1, 1.7), titel=""):
             linestyle=line_styles[i],
             linewidth=2,
         )
+    plt.plot(
+        [results[:, index].mean() for index in range(results.shape[1])],
+        label="Durchschnitt",
+        color="red",
+        linestyle="-",
+        linewidth=3,
+    )
     plt.xlim(xlim)
     plt.ylim(ylim)
-    plt.legend(loc="upper right")
+    plt.legend(loc="lower right")
     plt.xlabel("k", fontsize=12)
     plt.ylabel("Score", fontsize=12)
     plt.title(

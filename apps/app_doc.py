@@ -1,8 +1,15 @@
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 from langchain.cache import InMemoryCache
-
-
+from langchain.chains import AnalyzeDocumentChain
+from langchain.chains.combine_documents.stuff import StuffDocumentsChain
+from langchain_openai import ChatOpenAI
+from langchain.chains.summarize import load_summarize_chain
+from langchain.chains.llm import LLMChain
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_core.prompts import PromptTemplate
+from langchain_text_splitters import CharacterTextSplitter
+from langchain.chains import ReduceDocumentsChain
 import streamlit as st
 
 import streamlit.components.v1 as components
@@ -10,15 +17,17 @@ import streamlit.components.v1 as components
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
-from PyPDF2 import PdfReader, PdfWriter
+
 
 from dotenv import load_dotenv
 
 load_dotenv(".env")
+uploaded_file = None
 faiss_index: FAISS = None
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 response = ""
 models = [
+    "gpt-4o",
     "gpt-4-turbo",
     "gpt-3.5-turbo",
     "gpt-4",
@@ -60,6 +69,41 @@ def get_openai_response(question: str) -> str:
             HumanMessage(content=question),
         ]
         return chat(messages).content
+    else:
+        return "Bitte laden Sie zuerst eine Datei hoch"
+
+
+def get_openai_response_extansion(question: str) -> str:
+    if uploaded_file:
+        prompt_template = """:
+        "{text}"
+        CONCISE SUMMARY:"""
+        reduce_chain = LLMChain(
+            llm=chat, prompt=PromptTemplate.from_template(question + prompt_template)
+        )
+        combine_documents_chain = StuffDocumentsChain(
+            llm_chain=reduce_chain, document_variable_name="text"
+        )
+        reduce_documents_chain = ReduceDocumentsChain(
+            combine_documents_chain=combine_documents_chain,
+            collapse_documents_chain=combine_documents_chain,
+            token_max=8000,
+        )
+        text_splitter = CharacterTextSplitter.from_tiktoken_encoder(
+            chunk_size=4000, chunk_overlap=3
+        )
+        temp_file = "./temp.pdf"
+
+        with open(temp_file, "wb") as file:
+            file.write(uploaded_file.getvalue())
+
+        split_docs = text_splitter.split_documents(
+            PyPDFLoader(
+                temp_file,
+                extract_images=False,
+            ).load()
+        )
+        return reduce_documents_chain.run(split_docs)
     else:
         return "Bitte laden Sie zuerst eine Datei hoch"
 
@@ -107,5 +151,12 @@ if __name__ == "__main__":
     if submit:
         response = get_openai_response(input_user)
     if submit and (response != ""):
+        st.subheader("The Response is")
+        st.write(response)
+        
+    sum_up = st.button("Summary")
+    if sum_up:
+        response = get_openai_response_extansion(input_user)
+    if sum_up and (response != ""):
         st.subheader("The Response is")
         st.write(response)
