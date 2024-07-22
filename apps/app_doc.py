@@ -36,7 +36,7 @@ models = [
     "babbage-002",
 ]
 
-chat = ChatOpenAI(model="gpt-4-turbo", temperature=0.6, cache=InMemoryCache())
+chat = ChatOpenAI(model="gpt-4o", temperature=0.6, cache=InMemoryCache())
 
 
 def alert(message: str) -> None:
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     if submit and (response != ""):
         st.subheader("The Response is")
         st.write(response)
-        
+
     sum_up = st.button("Summary")
     if sum_up:
         response = get_openai_response_extansion(input_user)
