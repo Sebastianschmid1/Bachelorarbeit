@@ -73,7 +73,7 @@ def get_openai_response(question: str) -> str:
         return "Bitte laden Sie zuerst eine Datei hoch"
 
 
-def get_openai_response_extansion(question: str) -> str:
+def get_openai_response_extension(question: str) -> str:
     if uploaded_file:
         prompt_template = """:
         "{text}"
@@ -156,7 +156,7 @@ if __name__ == "__main__":
 
     sum_up = st.button("Summary")
     if sum_up:
-        response = get_openai_response_extansion(input_user)
+        response = get_openai_response_extension(input_user)
     if sum_up and (response != ""):
         st.subheader("The Response is")
         st.write(response)
