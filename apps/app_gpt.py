@@ -14,6 +14,7 @@ chat = ChatOpenAI(
 )
 
 models = [
+    "gpt-4o",
     "gpt-3.5-turbo",
     "gpt-4",
     "gpt-4-turbo",
@@ -51,7 +52,7 @@ st.set_page_config(
     page_title="BA",
     page_icon="👾",
 )
-st.header("Bachelorsarbeit Application")
+st.header("Bachelorarbeit Application")
 
 model_choice = st.selectbox("Choose a chat model:", models)
 chat.model_name = model_choice
@@ -61,7 +62,7 @@ st.write(f"You selected: {chat.model_name}")
 sytem_message = st.text_input(
     "InputSystem: ",
     key="inputSystem",
-    value="Du bist ein Hilfreicher assistent für eine Wissenschaftlichearbeit in Deutsch",
+    value="Du bist ein hilfreicher Assistent für Fragen im Bereich Erdkunde?",
 )
 input_user = st.text_area("InputUser: ", key="input", height=150)
 submit = st.button("Ask the question")
